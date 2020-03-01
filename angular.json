@@ -124,6 +124,41 @@
           }
         }
       }
+    },
+    "PassOnEncapsulation": {
+      "projectType": "library",
+      "root": "projects/pass-on-encapsulation",
+      "sourceRoot": "projects/pass-on-encapsulation/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/pass-on-encapsulation/tsconfig.lib.json",
+            "project": "projects/pass-on-encapsulation/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pass-on-encapsulation/src/test.ts",
+            "tsConfig": "projects/pass-on-encapsulation/tsconfig.spec.json",
+            "karmaConfig": "projects/pass-on-encapsulation/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pass-on-encapsulation/tsconfig.lib.json",
+              "projects/pass-on-encapsulation/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "angular-passOnEncapsulation"
 }
