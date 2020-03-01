@@ -3,20 +3,19 @@ Directive for Angular to pass on a parents encapsulation attribute to its childr
 
 ## How to use
 Install package in your angular project
-```bash
+```
 npm install -s angular-pass-on-encap
 ```
 
 Import module into your app.module.ts
 ```typescript
+import { PassOnEncapsulationModule } from 'angular-pass-on-encap';
+
 @NgModule({
-  // ...
   imports: [
     PassOnEncapsulationModule
-  ],
-  // ...
+  ]
 })
-export class AppModule { }
 ```
 
 Use the directive:

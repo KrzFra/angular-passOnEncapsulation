@@ -1,6 +1,6 @@
 {
   "name": "angular-pass-on-encap",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "Angular directive which passes a parents's virtual encapsulation parameter on to its children",
   "main": "pass-on-encapsulation.directive.ts",
   "scripts": {
