@@ -1,32 +1,58 @@
 # passOnEncapsulationDirective
 Directive for Angular to pass on a parents encapsulation attribute to its children.
 
-When `ViewEncapsulation.Emulated` is enabled in Angular (default), it adds an attribute to your HTML elements and CSS classes to keep your css rules inside the component. This is great if you only use your own components, since you can edit their respective styles directly. However, when you use other packages, f.e Angular Material, you don't have access to the component's children.
+## How to use
+Install package in your angular project
+```bash
+npm install -s angular-pass-on-encap
+```
 
-## Example before:
+Import module into your app.module.ts
+```typescript
+@NgModule({
+  // ...
+  imports: [
+    PassOnEncapsulationModule
+  ],
+  // ...
+})
+export class AppModule { }
+```
 
-### my-component.ts
-
+Use the directive:
 ```html
+<mat-form-field libPassOnEncap></mat-form-field>
+```
+
+## Explanation
+
+When `ViewEncapsulation.Emulated` is enabled in Angular (default), it adds an attribute to your HTML elements and CSS classes to keep your css rules inside the component. This is great if you only use your own components, since you can edit their respective styles directly. However, when you use other packages, f.e. Angular Material, you don't have access to the component's children.
+
+## Example: How it works now
+In this example, I'm using a mat-form-field component in my-component:
+```html
+<!--my-component.html-->
 <mat-form-field>
   <input matInput placeholder="placeholder" />
 </mat-form-field>
 ```
 
-### my-component.css
+Then I want to apply a new border to the field label wrapper, created inside mat-form-field:
 ```css
-.mat-form-field-infix {
+/* my-component.css */
+.mat-form-field-label-wrapper {
     border: 1px solid red;
 }
 ```
 
-### Resulting HTML (simplified)
+However, when the resulting html and CSS is sent to the browser, my rule is ignored:
 ```html
 <mat-form-field class="mat-form-field" _ngcontent-rwb-c0>
   <div class="mat-form-field-wrapper">
     <div class="mat-form-field-flex">
       <div class="mat-form-field-infix">
         <input class="mat-input-element"_ngcontent-rwb-c0/>
+        <!-- I want to edit this: -->
         <span class="mat-form-field-label-wrapper">
           <label class="mat-form-field-label">
             <span>placeholder</span>
@@ -45,25 +71,23 @@ When `ViewEncapsulation.Emulated` is enabled in Angular (default), it adds an at
   </div>
 </mat-form-field>
 ```
-### Resulting CSS
 
 ```css
-.mat-form-field-infix[_ngcontent-rwb-c0] {
+.mat-form-field-label-wrapper[_ngcontent-rwb-c0] {
     border: 1px solid red;
 }
 ```
-Angular uses randomly generated attributes, in this case `_ngcontent-rwb-c0`, to bind the CSS rules to the components HTML elements. But Angular only adds the attribute to the 'root' elements which are positioned directly in my template. In this case my css rule for `.mat-form-field-infix` will not be applied to the element. I will need to put it in the global `style.css` where no encapsulation tag is added to the CSS class. But this becomes tedious quickly, expecially when I want to display `.mat-form-field-infix` differently in several components; and it defeats the whole purpose of encapsulation.
+Angular uses randomly generated attributes, in this case `_ngcontent-rwb-c0`, to bind the CSS rules to the components HTML elements. But Angular only adds the attribute to the 'root' elements which are positioned directly in my template. In this case my css rule for `.mat-form-field-label-wrapper` will not be applied to the element. I will need to put it in the global `style.css` where no encapsulation tag is added to the CSS class. But this becomes tedious quickly, expecially when I want to display `.mat-form-field-label-wrapper` differently in several components; and it defeats the whole purpose of encapsulation.
 
-## Example after:
+## Example: How it works with directive
+Using `libPassOnEncap` in the components lets it pass on its encapsulation attribute to its children:
 
-### my-component.html
 ```html
-<mat-form-field appPassOnEncap>
+<!--my-component.html-->
+<mat-form-field libPassOnEncap>
   <input matInput placeholder="placeholder"/>
 </mat-form-field>
 ```
-
-### Resulting HTML (simplified)
 ```html
 <mat-form-field class="mat-form-field" _ngcontent-rwb-c0>
   <div class="mat-form-field-wrapper" _ngcontent-rwb-c0>
@@ -88,12 +112,4 @@ Angular uses randomly generated attributes, in this case `_ngcontent-rwb-c0`, to
   </div>
 </mat-form-field>
 ```
-By adding the `appPassOnEncap` attribute to my `mat-form-field` tag, I can add the elements `_ngcontent-...` encapsulation attribute to all of its children. Now my CSS rule for `.mat-form-field-infix` works.
-
-## How to use (for beginners)
-Generate a directive with the Angular CLI, to make sure that it's imported correctly in your app:
-```bash
-ng generate directive passOnEncapsulation
-```
-
-Then open `pass-on-encapsulation.directive.ts` of this repository and replace the code.
+Now my CSS rule for `.mat-form-field-label-wrapper` works and it works only for elements inside this component.
