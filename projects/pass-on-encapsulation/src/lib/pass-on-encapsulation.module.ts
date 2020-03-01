@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { PassOnEncapsulationComponent } from './pass-on-encapsulation.component';
+import { PassOnEncapsulationDirective } from './pass-on-encapsulation.directive';
 
 
 
 @NgModule({
-  declarations: [PassOnEncapsulationComponent],
+  declarations: [PassOnEncapsulationDirective],
   imports: [
   ],
-  exports: [PassOnEncapsulationComponent]
+  exports: [PassOnEncapsulationDirective]
 })
 export class PassOnEncapsulationModule { }
