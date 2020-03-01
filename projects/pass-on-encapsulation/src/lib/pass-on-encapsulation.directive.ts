@@ -1,7 +1,7 @@
 import { AfterContentChecked, Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[libAppPassOnEncap]',
+  selector: '[libPassOnEncap]',
 })
 export class PassOnEncapsulationDirective implements AfterContentChecked {
   constructor(private elementRef: ElementRef) { }
